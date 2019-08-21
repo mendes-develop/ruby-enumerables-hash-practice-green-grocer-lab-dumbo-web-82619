@@ -116,6 +116,11 @@ def checkout(cart, coupons)
   total_price += hash_cart[key][:price] * (hash_cart[key][:count]).to_f
 
 end
+
+  if total_price > 100.100
+    total_price *= 0.9
+    return total_price
+  end
   total_price
 end
 
