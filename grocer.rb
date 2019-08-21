@@ -109,11 +109,11 @@ def checkout(cart, coupons)
  
  total_price = 0.0 
  
- array_keys = hash_w_clearance.keys
+ array_keys = hash_cart.keys
  
  for key in array_keys
  
-  total_price += hash_w_clearance[key][:price]
+  total_price += hash_cart[key][:price]
 
 end
   total_price
