@@ -16,19 +16,23 @@ def consolidate_cart(cart)
   return new_hash
 end
 
+
+
+
+
 def apply_coupons(cart, coupons)
   coupons.each do |coupon|
   item = coupon[:item] 
 
   if cart[item] && cart[item][:count] >= coupon[:num]
     if cart["#{item} W/COUPON"]
-      cart["#{item} W/COUPON"][:count] += 1
+      cart["#{item} W/COUPON"][:count] += coupon[:num]
 
     else
       cart["#{item} W/COUPON"] = {
-        :price => coupon[:cost],
+        :price => (coupon[:cost] / coupon[:num].to_f),
         :clearance => cart[item][:clearance],
-        :count => 1
+        :count => coupon[:num]
       }
 
     end
@@ -36,7 +40,12 @@ def apply_coupons(cart, coupons)
 
   end
 end
-  cart
+cart
+end
+
+
+
+  
 # new_hash = {}
 
 # for i in coupons 
@@ -74,12 +83,47 @@ end
 #     end
 #   end
 #   new_hash
-end
+
 
 def apply_clearance(cart)
-  # code here
+new_hash = {}
+array_keys = cart.keys
+
+for key in array_keys
+
+    if cart[key][:clearance] == true
+      new_hash[key] = cart[key]
+      new_hash[key][:price] = (cart[key][:price] * 0.8).round(2)
+      
+   else 
+     new_hash[key] = cart[key]
+   end
+end
+  new_hash
 end
 
 def checkout(cart, coupons)
-  # code here
+ hash_cart = consolidate_cart(cart)
+ hash_w_discount = apply_coupons(hash_cart, coupons)
+ hash_w_clearance = apply_clearance(hash_cart)
+ 
+ total_price = 0.0 
+ 
+ array_keys = hash_w_clearance.keys
+ 
+ for key in array_keys
+ 
+  total_price += hash_w_clearance[key][:price]
+
 end
+  total_price
+end
+
+
+ #   if cart[key][:clearance] == true
+  #     new_hash[key] = cart[key]
+  #     new_hash[key][:price] = (cart[key][:price] * 0.8).round(2)
+      
+  # else 
+  #   new_hash[key] = cart[key]
+  # end
