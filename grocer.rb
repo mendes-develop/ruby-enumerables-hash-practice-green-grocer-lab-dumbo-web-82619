@@ -113,7 +113,7 @@ def checkout(cart, coupons)
  
  for key in array_keys
  
-  total_price += hash_cart[key][:price]
+  total_price += hash_cart[key][:price] * (hash_cart[key][:count]).to_f
 
 end
   total_price
